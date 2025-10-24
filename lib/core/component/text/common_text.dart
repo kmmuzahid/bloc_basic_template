@@ -1,8 +1,8 @@
+import 'package:bloc_basic_template/core/utils/extensions/extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:bloc_basic_template/core/utils/extensions/extension.dart';
 
 class CommonText extends StatelessWidget {
   const CommonText({
@@ -54,7 +54,6 @@ class CommonText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   
     return enableBorder == true || backgroundColor != null
         ? _withBorder(context)
         : _withoutBorder(context);
@@ -89,13 +88,15 @@ class CommonText extends StatelessWidget {
     }
   }
 
-  bool _isHtml(String input) {
-    final htmlRegex = RegExp(r"<[^>]+>", multiLine: true, caseSensitive: false);
-    return htmlRegex.hasMatch(input);
-  }
-
   Widget _textField(BuildContext context) {
-    final content = _isHtml(text)
+    return Wrap(
+      alignment: _convertAlignment(),
+      // mainAxisSize: MainAxisSize.min,
+      // mainAxisAlignment: alignment ?? MainAxisAlignment.start,
+      children: [
+        if (preffix != null) preffix!,
+        if (preffix != null) 10.width,
+        _isHtml(text)
         ? Html(
             data: text,
             style: {
@@ -111,29 +112,26 @@ class CommonText extends StatelessWidget {
               ),
             },
           )
-        : Text(
+            : Text(
           text,
           textAlign: textAlign,
           maxLines: maxLines,
           softWrap: true,
-            overflow: maxLines == null ? TextOverflow.visible : (overflow ?? TextOverflow.ellipsis),
-            style: getStyle(),
-          );
-
-    return Container(
-      color: backgroundColor ?? Colors.transparent, // ✅ ensure bg color applied
-      child: Wrap(
-        alignment: _convertAlignment(),
-        children: [
-          if (preffix != null) preffix!,
-          if (preffix != null) 10.width,
-          content,
+                overflow: maxLines == null
+                    ? TextOverflow.visible
+                    : (overflow ?? TextOverflow.ellipsis),
+                style: getStyle(),
+              ),
         if (suffix != null) 10.width,
         if (suffix != null) suffix!,
         if (suffix != null) 10.width,
       ],
-      ),
     );
+  }
+
+  bool _isHtml(String input) {
+    final htmlRegex = RegExp(r"<[^>]+>", multiLine: true, caseSensitive: false);
+    return htmlRegex.hasMatch(input);
   }
 
   TextStyle getStyle() {
@@ -145,9 +143,15 @@ class CommonText extends StatelessWidget {
           color: color ?? getTheme.textTheme.bodyMedium?.color,
         );
 
-    if (color != null) style = style.copyWith(color: color);
-    if (fontWeight != null) style = style.copyWith(fontWeight: fontWeight);
-    if (fontSize != null) style = style.copyWith(fontSize: fontSize!.sp);
+    if (color != null) {
+      style = style.copyWith(color: color);
+    }
+    if (fontWeight != null) {
+      style = style.copyWith(fontWeight: fontWeight);
+    }
+    if (fontSize != null) {
+      style = style.copyWith(fontSize: fontSize!.sp);
+    }
     return style;
   }
 }
