@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SmartStaggeredLoader extends StatefulWidget {
   const SmartStaggeredLoader({
@@ -20,7 +21,9 @@ class SmartStaggeredLoader extends StatefulWidget {
     this.aspectRatio = 1,
     this.appbar,
     this.onColapsAppbar,
-    this.backgroundColor,
+    this.isSeperated = false,
+    this.dividerColor = const Color(0xFFC0C0C0),
+    this.backgroundColor = Colors.white,
   });
 
   final int itemCount;
@@ -40,7 +43,9 @@ class SmartStaggeredLoader extends StatefulWidget {
   final double aspectRatio;
   final Widget? appbar;
   final Widget? onColapsAppbar;
-  final Color? backgroundColor;
+  final bool isSeperated;
+  final Color dividerColor;
+  final Color backgroundColor;
 
   @override
   State<SmartStaggeredLoader> createState() => _SmartStaggeredLoaderState();
@@ -63,7 +68,6 @@ class _SmartStaggeredLoaderState extends State<SmartStaggeredLoader>
       vsync: this,
       duration: const Duration(milliseconds: 200),
     );
-
     // Start with the app bar visible
     _animationController.forward();
   }
@@ -82,16 +86,27 @@ class _SmartStaggeredLoaderState extends State<SmartStaggeredLoader>
     // Handle app bar visibility if appbar is provided
     if (widget.appbar != null) {
       final currentScroll = _scrollController.position.pixels;
-      final isScrollingDown = currentScroll > _lastScrollOffset && currentScroll > 0;
-      final isAtTop = currentScroll <= 0;
+      final maxScroll = _scrollController.position.maxScrollExtent;
+      final isAtBottom = currentScroll >= maxScroll;
+      final isAtTop = currentScroll <= _scrollController.position.minScrollExtent;
 
-      if (isScrollingDown && _isAppBarVisible) {
-        // Hide app bar when scrolling down
-        _isAppBarVisible = false;
-        setState(() {});
-        _animationController.reverse();
-      } else if ((!isScrollingDown && !_isAppBarVisible && !isAtTop) || isAtTop) {
-        // Show app bar when scrolling up or when at top
+      // Only process scroll events when not at the boundaries to prevent bouncing effects
+      if (!isAtTop && !isAtBottom) {
+        final isScrollingDown = currentScroll > _lastScrollOffset && currentScroll > 0;
+
+        if (isScrollingDown && _isAppBarVisible) {
+          // Hide app bar when scrolling down
+          _isAppBarVisible = false;
+          setState(() {});
+          _animationController.reverse();
+        } else if (!isScrollingDown && !_isAppBarVisible) {
+          // Show app bar when scrolling up
+          _isAppBarVisible = true;
+          setState(() {});
+          _animationController.forward();
+        }
+      } else if (isAtTop && !_isAppBarVisible) {
+        // Ensure app bar is visible when at top
         _isAppBarVisible = true;
         setState(() {});
         _animationController.forward();
@@ -110,39 +125,52 @@ class _SmartStaggeredLoaderState extends State<SmartStaggeredLoader>
   }
 
   Widget _buildGrid({ScrollController? controller, ScrollPhysics? physics}) {
-    return GridView.custom(
-      controller: controller,
-      key: ValueKey('staggered${widget.itemCount}'),
-      physics: physics ?? const AlwaysScrollableScrollPhysics(),
-      padding: widget.padding,
-      shrinkWrap: physics is NeverScrollableScrollPhysics,
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        childAspectRatio: widget.aspectRatio,
-        maxCrossAxisExtent: widget.maxCrossAxisExtent,
-        mainAxisSpacing: widget.mainAxisSpacing,
-        crossAxisSpacing: widget.crossAxisSpacing,
-      ),
-      childrenDelegate: SliverChildBuilderDelegate(childCount: widget.itemCount + 1, (
-        context,
-        index,
-      ) {
-        if (index < widget.itemCount) {
-          return widget.itemBuilder(context, index);
-        } else if (widget.isLoadingMore) {
-          // Show load more indicator at the bottom of list
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: CircularProgressIndicator()),
-          );
-        } else if (widget.isLoadDone) {
-          return const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Center(child: Text('All data loaded')),
-          );
-        } else {
-          return const SizedBox.shrink();
-        }
-      }),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return GridView.custom(
+          controller: controller,
+          key: ValueKey('staggered${widget.itemCount}'),
+          physics: physics ?? const AlwaysScrollableScrollPhysics(),
+          padding: widget.padding,
+          shrinkWrap: physics is NeverScrollableScrollPhysics,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            childAspectRatio: widget.aspectRatio,
+            maxCrossAxisExtent: widget.maxCrossAxisExtent,
+            mainAxisSpacing: widget.mainAxisSpacing,
+            crossAxisSpacing: widget.isSeperated ? 0 : widget.crossAxisSpacing,
+          ),
+          childrenDelegate: SliverChildBuilderDelegate(
+            childCount: widget.itemCount + (widget.isLoadingMore ? 1 : 0),
+            (context, index) {
+              if (index < widget.itemCount) {
+                if (widget.isSeperated) {
+                  return RepaintBoundary(
+                    child: _seprated(
+                      index,
+                      widget.itemBuilder(context, index),
+                      constraints.maxWidth,
+                    ),
+                  );
+                }
+                return RepaintBoundary(child: widget.itemBuilder(context, index));
+              } else if (widget.isLoadingMore) {
+                // Show load more indicator at the bottom of list
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              } else if (widget.isLoadDone) {
+                return const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: Text('All data loaded')),
+                );
+              } else {
+                return const SizedBox.shrink();
+              }
+            },
+          ),
+        );
+      },
     );
   }
 
@@ -195,6 +223,32 @@ class _SmartStaggeredLoaderState extends State<SmartStaggeredLoader>
         : grid;
   }
 
+  Widget _seprated(int index, Widget child, double width) {
+    final gridChildPosition = calculateGridChildInfo(
+      index: index,
+      totalChildren: widget.itemCount,
+      crossAxisCount: widget.maxCrossAxisExtent,
+      width: width,
+    );
+
+    final double spaceing = widget.crossAxisSpacing <= 0 ? 0 : widget.crossAxisSpacing / 2;
+
+    return Container(
+      padding: EdgeInsets.only(
+        left: gridChildPosition.isLastInRow || gridChildPosition.isMiddleInRow ? spaceing : 0,
+        right: gridChildPosition.isFirstInRow || gridChildPosition.isMiddleInRow ? spaceing : 0,
+      ),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: !gridChildPosition.isItInLastRow
+              ? BorderSide(color: widget.dividerColor, width: 1.4.w)
+              : BorderSide.none,
+        ),
+      ),
+      child: child,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.appbar != null) {
@@ -241,4 +295,50 @@ class _SmartStaggeredLoaderState extends State<SmartStaggeredLoader>
     }
     return _buildContent();
   }
+
+  GridChildInfo calculateGridChildInfo({
+    required int index,
+    required int totalChildren,
+    required double crossAxisCount, // use int, not double
+    required double width,
+  }) {
+    final childrenInRow = (width / crossAxisCount).round();
+
+    // Total rows
+    final totalRows = totalChildren ~/ childrenInRow;
+
+    // Position in the row (0-based)
+    final positionInRow = index % crossAxisCount;
+
+    // First / middle / last
+    final isFirstInRow = positionInRow == 0;
+    final isLastInRow = positionInRow == childrenInRow - 1;
+    final isMiddleInRow = !isFirstInRow && !isLastInRow;
+
+    final beforeLastRowItemsCount = (totalRows) * childrenInRow;
+    final isItInLastRow = beforeLastRowItemsCount <= index;
+
+    return GridChildInfo(
+      childrenInRow: childrenInRow,
+      isFirstInRow: isFirstInRow,
+      isMiddleInRow: isMiddleInRow,
+      isLastInRow: isLastInRow,
+      isItInLastRow: isItInLastRow,
+    );
+  }
+}
+
+class GridChildInfo {
+  GridChildInfo({
+    required this.childrenInRow,
+    required this.isFirstInRow,
+    required this.isMiddleInRow,
+    required this.isLastInRow,
+    required this.isItInLastRow,
+  });
+  final int childrenInRow; // number of items in this row
+  final bool isFirstInRow;
+  final bool isMiddleInRow;
+  final bool isLastInRow;
+  final bool isItInLastRow;
 }

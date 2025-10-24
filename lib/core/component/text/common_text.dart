@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bloc_basic_template/core/utils/extensions/extension.dart';
@@ -13,8 +14,8 @@ class CommonText extends StatelessWidget {
     this.right = 0,
     this.top = 0,
     this.bottom = 0,
-    this.fontSize = 12,
-    this.fontWeight = FontWeight.w400,
+    this.fontSize,
+    this.fontWeight,
     this.color,
     this.style,
     this.overflow,
@@ -26,14 +27,15 @@ class CommonText extends StatelessWidget {
     this.borderRadiusOnly,
     this.suffix,
     this.preffix,
+    this.isDescription = false,
   });
 
   final double left;
   final double right;
   final double top;
   final double bottom;
-  final double fontSize;
-  final FontWeight fontWeight;
+  final double? fontSize;
+  final FontWeight? fontWeight;
   final Color? color;
   final String text;
   final TextAlign textAlign;
@@ -48,9 +50,11 @@ class CommonText extends StatelessWidget {
   final MainAxisAlignment? alignment;
   final Widget? suffix;
   final Widget? preffix;
+  final bool isDescription;
 
   @override
   Widget build(BuildContext context) {
+   
     return enableBorder == true || backgroundColor != null
         ? _withBorder(context)
         : _withoutBorder(context);
@@ -85,32 +89,65 @@ class CommonText extends StatelessWidget {
     }
   }
 
+  bool _isHtml(String input) {
+    final htmlRegex = RegExp(r"<[^>]+>", multiLine: true, caseSensitive: false);
+    return htmlRegex.hasMatch(input);
+  }
+
   Widget _textField(BuildContext context) {
-    return Wrap(
-      alignment: _convertAlignment(),
-      // mainAxisSize: MainAxisSize.min,
-      // mainAxisAlignment: alignment ?? MainAxisAlignment.start,
-      children: [
-        if (preffix != null) preffix!,
-        if (preffix != null) 10.width,
-        Text(
+    final content = _isHtml(text)
+        ? Html(
+            data: text,
+            style: {
+              "body": Style(
+                // fontSize: FontSize(fontSize ?? 12.sp),
+                // color: textColor ?? getTheme.textTheme.bodyMedium?.color,
+                // fontWeight: fontWeight ?? FontWeight.w400,
+                fontFamily: getTheme.textTheme.bodyLarge?.fontFamily,
+                margin: Margins.zero,
+                padding: HtmlPaddings.zero,
+                textAlign: textAlign,
+                // backgroundColor: backgroundColor, // ✅ optional inline fallback
+              ),
+            },
+          )
+        : Text(
           text,
           textAlign: textAlign,
           maxLines: maxLines,
           softWrap: true,
-          overflow: maxLines == null ? TextOverflow.visible : (overflow ?? TextOverflow.ellipsis),
-          style:
-              style ??
-              GoogleFonts.dmSans(
-                fontSize: fontSize.sp,
-                fontWeight: fontWeight,
-                color: color ?? Theme.of(context).textTheme.bodyMedium?.color,
-              ),
-        ),
+            overflow: maxLines == null ? TextOverflow.visible : (overflow ?? TextOverflow.ellipsis),
+            style: getStyle(),
+          );
+
+    return Container(
+      color: backgroundColor ?? Colors.transparent, // ✅ ensure bg color applied
+      child: Wrap(
+        alignment: _convertAlignment(),
+        children: [
+          if (preffix != null) preffix!,
+          if (preffix != null) 10.width,
+          content,
         if (suffix != null) 10.width,
         if (suffix != null) suffix!,
         if (suffix != null) 10.width,
       ],
+      ),
     );
+  }
+
+  TextStyle getStyle() {
+    var style =
+        this.style ??
+        GoogleFonts.dmSans(
+          fontSize: fontSize?.sp ?? 12.sp,
+          fontWeight: fontWeight ?? FontWeight.w400,
+          color: color ?? getTheme.textTheme.bodyMedium?.color,
+        );
+
+    if (color != null) style = style.copyWith(color: color);
+    if (fontWeight != null) style = style.copyWith(fontWeight: fontWeight);
+    if (fontSize != null) style = style.copyWith(fontSize: fontSize!.sp);
+    return style;
   }
 }
