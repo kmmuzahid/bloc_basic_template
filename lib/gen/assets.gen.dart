@@ -24,39 +24,19 @@ class $AssetsIconGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/english.png
-  AssetGenImage get english => const AssetGenImage('assets/images/english.png');
-
-  /// File path: assets/images/sampleItem.png
-  AssetGenImage get sampleItem =>
-      const AssetGenImage('assets/images/sampleItem.png');
-
-  /// File path: assets/images/sampleItem_2.jpg
-  AssetGenImage get sampleItem2 =>
-      const AssetGenImage('assets/images/sampleItem_2.jpg');
-
-  /// File path: assets/images/sampleItem_3.png
-  AssetGenImage get sampleItem3 =>
-      const AssetGenImage('assets/images/sampleItem_3.png');
+  /// File path: assets/images/app_icon.png
+  AssetGenImage get appIcon =>
+      const AssetGenImage('assets/images/app_icon.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
-    english,
-    sampleItem,
-    sampleItem2,
-    sampleItem3,
-  ];
+  List<AssetGenImage> get values => [appIcon];
 }
 
 class Assets {
   const Assets._();
 
-  static const String aEnv = '.env';
   static const $AssetsIconGen icon = $AssetsIconGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
-
-  /// List of all assets
-  static List<String> get values => [aEnv];
 }
 
 class AssetGenImage {
