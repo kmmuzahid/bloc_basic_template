@@ -6,10 +6,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:core_kit/core_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mygarage/config/color/app_color.dart';
 import 'package:mygarage/config/route/app_router.dart';
 import 'package:mygarage/config/route/app_router.gr.dart';
 import 'package:mygarage/constant/constants.dart';
+import 'package:mygarage/coreFeature/auth/cubit/auth_cubit.dart';
 import 'package:mygarage/coreFeature/auth/widgets/action_spawn_widget.dart';
 import 'package:mygarage/coreFeature/common/common_widget.dart';
 import 'package:mygarage/gen/assets.gen.dart';
@@ -78,7 +80,9 @@ class LoginScreen extends StatelessWidget {
             30.height,
             // Log In Button
             CommonButton(
-              onTap: () {},
+              onTap: () {
+                context.read<AuthCubit>().login();
+              },
               titleText: "Log In",
               buttonWidth: double.infinity,
               buttonRadius: 40,

@@ -5,7 +5,7 @@
  */
 import 'package:mygarage/config/bloc/safe_cubit.dart';
 import 'package:mygarage/config/route/app_router.dart';
-import 'package:mygarage/config/route/app_router.gr.dart' show OnboardingRoute;
+import 'package:mygarage/config/route/app_router.gr.dart' show OnboardingRoute, NavigationRoute;
 import 'package:mygarage/coreFeature/auth/cubit/auth_state.dart';
 
 class AuthCubit extends SafeCubit<AuthState> {
@@ -24,5 +24,9 @@ class AuthCubit extends SafeCubit<AuthState> {
 
   void logout() {
     emit(AuthState());
+  }
+
+  void login() {
+    appRouter.replaceAll([const NavigationRoute()]);
   }
 }
