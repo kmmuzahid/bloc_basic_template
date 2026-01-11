@@ -33,6 +33,7 @@ dev_dependencies:
   intl_utils:   # to generate from arb
   flutter_auto_size_text:
   change_app_package_name: 
+  pin_code_fields:
 
 flutter_icons:
   android: true

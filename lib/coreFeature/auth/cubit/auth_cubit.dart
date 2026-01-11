@@ -11,6 +11,7 @@ import 'package:mygarage/coreFeature/auth/cubit/auth_state.dart';
 class AuthCubit extends SafeCubit<AuthState> {
   AuthCubit() : super(AuthState());
   final _delaySplash = const Duration(seconds: 3);
+  
 
   Future<void> init() async {
     await Future.delayed(_delaySplash);

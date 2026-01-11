@@ -53,6 +53,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: PrivacyPolicyRoute.page),
     AutoRoute(page: TermsOfUseRoute.page),
     AutoRoute(page: SignUpRoute.page),
+    AutoRoute(page: SendOtpRoute.page),
     // AutoRoute(page: OtpRoute.page),
     // AutoRoute(page: ForgetPasswordRoute.page),
     // AutoRoute(page: ChatRoute.page),

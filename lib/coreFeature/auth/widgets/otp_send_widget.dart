@@ -1,0 +1,80 @@
+/*
+ * @Author: Km Muzahid
+ * @Date: 2026-01-11 12:13:44
+ * @Email: km.muzahid@gmail.com
+ */
+import 'package:core_kit/core_kit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygarage/coreFeature/auth/cubit/otp_cubit.dart';
+
+class OtpSend extends StatefulWidget {
+  const OtpSend({super.key, required this.username, required this.isSignUp});
+  final String username;
+  final bool isSignUp;
+
+  @override
+  State<OtpSend> createState() => _OtpSendState();
+}
+
+class _OtpSendState extends State<OtpSend> {
+  late TextEditingController controller;
+  GlobalKey<FormState> formKey = GlobalKey();
+  @override
+  void initState() {
+    controller = TextEditingController();
+    controller.text = widget.username;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10),
+            //   child: CommonPhoneNumberTextFiled(controller: controller, countryChange: (value) {}),
+            // ),
+            // 12.height,
+            40.height,
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: CommonText(text: 'Email Address', textColor: Colors.white, fontSize: 14),
+            ),
+            12.height,
+            CommonTextField(
+              isReadOnly: widget.isSignUp,
+              hintText: 'Enter email address here...',
+              validationType: ValidationType.validateEmail,
+              prefixIcon: const Icon(Icons.email_outlined),
+              onSaved: (value, controller) {},
+            ),
+            40.height,
+            CommonButton(
+              titleText: 'Send OTP',
+              isLoading: false,
+              buttonRadius: 40,
+              buttonWidth: double.infinity,
+              titleSize: 12,
+              titleWeight: FontWeight.w500,
+              onTap: () {
+                if (formKey.currentState?.validate() == true) {
+                  context.read<OtpCubit>().sendOtp(controller.text);
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+}

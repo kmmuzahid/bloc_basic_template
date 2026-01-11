@@ -86,10 +86,10 @@ class MyApp extends StatelessWidget {
                   enableDebugLogs: true,
                 ),
                 tokenProvider: TokenProvider(
-                  accessToken: () => state.accessToken,
-                  refreshToken: () => state.refreshToken,
-                  updateTokens: (accessToken, refreshToken) async {
-                    context.read<AuthCubit>().updateTokens(accessToken, refreshToken);
+                  accessToken: () async => state.accessToken,
+                  refreshToken: () async => state.refreshToken,
+                  updateTokens: (data) async {
+                    // context.read<AuthCubit>().updateTokens(accessToken, refreshToken);
                   },
                   clearTokens: () async {
                     context.read<AuthCubit>().logout();

@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
               prefixIcon: const Icon(Icons.email_outlined),
               onSaved: (value, controller) {},
             ),
-            const SizedBox(height: 20),
+            20.height,
 
             // Password Field
             buildLabel("Password"),
@@ -60,7 +60,22 @@ class LoginScreen extends StatelessWidget {
               prefixIcon: const Icon(Icons.lock_outline),
               onSaved: (value, controller) {},
             ),
-            const SizedBox(height: 30),
+            10.height,
+            GestureDetector(
+              onTap: () {
+                appRouter.push(
+                  SendOtpRoute(title: "Forgot Password", onSuccess: () {}, username: ""),
+                );
+              },
+              child: CommonText(
+                text: "Forgot Password?",
+                textColor: AppColor.primary,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ).end,
+            ),
+
+            30.height,
             // Log In Button
             CommonButton(
               onTap: () {},
@@ -69,11 +84,11 @@ class LoginScreen extends StatelessWidget {
               buttonRadius: 40,
             ),
 
-            const SizedBox(height: 25),
+            25.height,
             const Center(
               child: Text("OR", style: TextStyle(color: Colors.white38)),
             ),
-            const SizedBox(height: 25),
+            25.height,
 
             // Google Login Button
             SizedBox(

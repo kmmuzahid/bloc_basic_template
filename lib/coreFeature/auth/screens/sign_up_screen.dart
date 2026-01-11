@@ -81,8 +81,12 @@ class SignUpScreen extends StatelessWidget {
             20.height,
 
             CommonButton(
-              onTap: () {},
-              titleText: "Log In",
+              onTap: () {
+                appRouter.push(
+                  SendOtpRoute(title: "Sign Up", onSuccess: () {}, username: '', isSignup: true),
+                );
+              },
+              titleText: "Sign Up",
               buttonWidth: double.infinity,
               buttonRadius: 40,
             ),
