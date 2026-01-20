@@ -9,133 +9,235 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i10;
-import 'package:flutter/material.dart' as _i11;
-import 'package:mygarage/coreFeature/auth/screens/login_screen.dart' as _i1;
+import 'package:auto_route/auto_route.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
+import 'package:mygarage/coreFeature/auth/screens/change_password_screen.dart'
+    as _i1;
+import 'package:mygarage/coreFeature/auth/screens/login_screen.dart' as _i2;
 import 'package:mygarage/coreFeature/auth/screens/reset_password_screen.dart'
-    as _i5;
-import 'package:mygarage/coreFeature/auth/screens/send_otp_screen.dart' as _i6;
-import 'package:mygarage/coreFeature/auth/screens/sign_up_screen.dart' as _i7;
-import 'package:mygarage/coreFeature/onboarding/onboarding_screen.dart' as _i3;
-import 'package:mygarage/coreFeature/splash/splash_screen.dart' as _i8;
-import 'package:mygarage/coreFeature/terms/privacy_policy_screen.dart' as _i4;
-import 'package:mygarage/coreFeature/terms/terms_of_use_screen.dart' as _i9;
-import 'package:mygarage/navigation/screens/navigation_screen.dart' as _i2;
+    as _i8;
+import 'package:mygarage/coreFeature/auth/screens/send_otp_screen.dart' as _i9;
+import 'package:mygarage/coreFeature/auth/screens/sign_up_screen.dart' as _i10;
+import 'package:mygarage/coreFeature/navigation/screens/navigation_screen.dart'
+    as _i3;
+import 'package:mygarage/coreFeature/notification/notification_screen.dart'
+    as _i4;
+import 'package:mygarage/coreFeature/onboarding/onboarding_screen.dart' as _i5;
+import 'package:mygarage/coreFeature/profile/screens/personal_info_screen.dart'
+    as _i7;
+import 'package:mygarage/coreFeature/splash/splash_screen.dart' as _i11;
+import 'package:mygarage/coreFeature/terms/privacy_policy_screen.dart' as _i6;
+import 'package:mygarage/coreFeature/terms/terms_of_use_screen.dart' as _i12;
 
 /// generated route for
-/// [_i1.LoginScreen]
-class LoginRoute extends _i10.PageRouteInfo<void> {
-  const LoginRoute({List<_i10.PageRouteInfo>? children})
+/// [_i1.ChangePasswordScreen]
+class ChangePasswordRoute extends _i13.PageRouteInfo<void> {
+  const ChangePasswordRoute({List<_i13.PageRouteInfo>? children})
+    : super(ChangePasswordRoute.name, initialChildren: children);
+
+  static const String name = 'ChangePasswordRoute';
+
+  static _i13.PageInfo page = _i13.PageInfo(
+    name,
+    builder: (data) {
+      return const _i1.ChangePasswordScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i2.LoginScreen]
+class LoginRoute extends _i13.PageRouteInfo<void> {
+  const LoginRoute({List<_i13.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i1.LoginScreen();
+      return const _i2.LoginScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i2.NavigationScreen]
-class NavigationRoute extends _i10.PageRouteInfo<void> {
-  const NavigationRoute({List<_i10.PageRouteInfo>? children})
+/// [_i3.NavigationScreen]
+class NavigationRoute extends _i13.PageRouteInfo<void> {
+  const NavigationRoute({List<_i13.PageRouteInfo>? children})
     : super(NavigationRoute.name, initialChildren: children);
 
   static const String name = 'NavigationRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i2.NavigationScreen();
+      return const _i3.NavigationScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i3.OnboardingScreen]
-class OnboardingRoute extends _i10.PageRouteInfo<void> {
-  const OnboardingRoute({List<_i10.PageRouteInfo>? children})
+/// [_i4.NotificationScreen]
+class NotificationRoute extends _i13.PageRouteInfo<void> {
+  const NotificationRoute({List<_i13.PageRouteInfo>? children})
+    : super(NotificationRoute.name, initialChildren: children);
+
+  static const String name = 'NotificationRoute';
+
+  static _i13.PageInfo page = _i13.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.NotificationScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i5.OnboardingScreen]
+class OnboardingRoute extends _i13.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i13.PageRouteInfo>? children})
     : super(OnboardingRoute.name, initialChildren: children);
 
   static const String name = 'OnboardingRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i3.OnboardingScreen();
+      return const _i5.OnboardingScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i4.PrivacyPolicyScreen]
-class PrivacyPolicyRoute extends _i10.PageRouteInfo<void> {
-  const PrivacyPolicyRoute({List<_i10.PageRouteInfo>? children})
+/// [_i6.PrivacyPolicyScreen]
+class PrivacyPolicyRoute extends _i13.PageRouteInfo<void> {
+  const PrivacyPolicyRoute({List<_i13.PageRouteInfo>? children})
     : super(PrivacyPolicyRoute.name, initialChildren: children);
 
   static const String name = 'PrivacyPolicyRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i4.PrivacyPolicyScreen();
+      return const _i6.PrivacyPolicyScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i5.ResetPasswordScreen]
-class ResetPasswordRoute extends _i10.PageRouteInfo<void> {
-  const ResetPasswordRoute({List<_i10.PageRouteInfo>? children})
-    : super(ResetPasswordRoute.name, initialChildren: children);
+/// [_i7.ProfileScreen]
+class ProfileRoute extends _i13.PageRouteInfo<void> {
+  const ProfileRoute({List<_i13.PageRouteInfo>? children})
+    : super(ProfileRoute.name, initialChildren: children);
+
+  static const String name = 'ProfileRoute';
+
+  static _i13.PageInfo page = _i13.PageInfo(
+    name,
+    builder: (data) {
+      return const _i7.ProfileScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i8.ResetPasswordScreen]
+class ResetPasswordRoute extends _i13.PageRouteInfo<ResetPasswordRouteArgs> {
+  ResetPasswordRoute({
+    _i14.Key? key,
+    required String verificationToken,
+    required String email,
+    List<_i13.PageRouteInfo>? children,
+  }) : super(
+         ResetPasswordRoute.name,
+         args: ResetPasswordRouteArgs(
+           key: key,
+           verificationToken: verificationToken,
+           email: email,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'ResetPasswordRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i5.ResetPasswordScreen();
+      final args = data.argsAs<ResetPasswordRouteArgs>();
+      return _i8.ResetPasswordScreen(
+        key: args.key,
+        verificationToken: args.verificationToken,
+        email: args.email,
+      );
     },
   );
 }
 
+class ResetPasswordRouteArgs {
+  const ResetPasswordRouteArgs({
+    this.key,
+    required this.verificationToken,
+    required this.email,
+  });
+
+  final _i14.Key? key;
+
+  final String verificationToken;
+
+  final String email;
+
+  @override
+  String toString() {
+    return 'ResetPasswordRouteArgs{key: $key, verificationToken: $verificationToken, email: $email}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ResetPasswordRouteArgs) return false;
+    return key == other.key &&
+        verificationToken == other.verificationToken &&
+        email == other.email;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^ verificationToken.hashCode ^ email.hashCode;
+}
+
 /// generated route for
-/// [_i6.SendOtpScreen]
-class SendOtpRoute extends _i10.PageRouteInfo<SendOtpRouteArgs> {
+/// [_i9.SendOtpScreen]
+class SendOtpRoute extends _i13.PageRouteInfo<SendOtpRouteArgs> {
   SendOtpRoute({
-    _i11.Key? key,
-    required Function onSuccess,
-    required String title,
+    _i14.Key? key,
+    required dynamic Function({required String email, required String token})
+    onSuccess,
     required String username,
-    bool isSignup = false,
-    List<_i10.PageRouteInfo>? children,
+    bool showSendToField = false,
+    List<_i13.PageRouteInfo>? children,
   }) : super(
          SendOtpRoute.name,
          args: SendOtpRouteArgs(
            key: key,
            onSuccess: onSuccess,
-           title: title,
            username: username,
-           isSignup: isSignup,
+           showSendToField: showSendToField,
          ),
          initialChildren: children,
        );
 
   static const String name = 'SendOtpRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<SendOtpRouteArgs>();
-      return _i6.SendOtpScreen(
+      return _i9.SendOtpScreen(
         key: args.key,
         onSuccess: args.onSuccess,
-        title: args.title,
         username: args.username,
-        isSignup: args.isSignup,
+        showSendToField: args.showSendToField,
       );
     },
   );
@@ -145,24 +247,22 @@ class SendOtpRouteArgs {
   const SendOtpRouteArgs({
     this.key,
     required this.onSuccess,
-    required this.title,
     required this.username,
-    this.isSignup = false,
+    this.showSendToField = false,
   });
 
-  final _i11.Key? key;
+  final _i14.Key? key;
 
-  final Function onSuccess;
-
-  final String title;
+  final dynamic Function({required String email, required String token})
+  onSuccess;
 
   final String username;
 
-  final bool isSignup;
+  final bool showSendToField;
 
   @override
   String toString() {
-    return 'SendOtpRouteArgs{key: $key, onSuccess: $onSuccess, title: $title, username: $username, isSignup: $isSignup}';
+    return 'SendOtpRouteArgs{key: $key, onSuccess: $onSuccess, username: $username, showSendToField: $showSendToField}';
   }
 
   @override
@@ -170,65 +270,59 @@ class SendOtpRouteArgs {
     if (identical(this, other)) return true;
     if (other is! SendOtpRouteArgs) return false;
     return key == other.key &&
-        onSuccess == other.onSuccess &&
-        title == other.title &&
         username == other.username &&
-        isSignup == other.isSignup;
+        showSendToField == other.showSendToField;
   }
 
   @override
   int get hashCode =>
-      key.hashCode ^
-      onSuccess.hashCode ^
-      title.hashCode ^
-      username.hashCode ^
-      isSignup.hashCode;
+      key.hashCode ^ username.hashCode ^ showSendToField.hashCode;
 }
 
 /// generated route for
-/// [_i7.SignUpScreen]
-class SignUpRoute extends _i10.PageRouteInfo<void> {
-  const SignUpRoute({List<_i10.PageRouteInfo>? children})
+/// [_i10.SignUpScreen]
+class SignUpRoute extends _i13.PageRouteInfo<void> {
+  const SignUpRoute({List<_i13.PageRouteInfo>? children})
     : super(SignUpRoute.name, initialChildren: children);
 
   static const String name = 'SignUpRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i7.SignUpScreen();
+      return const _i10.SignUpScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i8.SplashScreen]
-class SplashRoute extends _i10.PageRouteInfo<void> {
-  const SplashRoute({List<_i10.PageRouteInfo>? children})
+/// [_i11.SplashScreen]
+class SplashRoute extends _i13.PageRouteInfo<void> {
+  const SplashRoute({List<_i13.PageRouteInfo>? children})
     : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i8.SplashScreen();
+      return const _i11.SplashScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i9.TermsOfUseScreen]
-class TermsOfUseRoute extends _i10.PageRouteInfo<void> {
-  const TermsOfUseRoute({List<_i10.PageRouteInfo>? children})
+/// [_i12.TermsOfUseScreen]
+class TermsOfUseRoute extends _i13.PageRouteInfo<void> {
+  const TermsOfUseRoute({List<_i13.PageRouteInfo>? children})
     : super(TermsOfUseRoute.name, initialChildren: children);
 
   static const String name = 'TermsOfUseRoute';
 
-  static _i10.PageInfo page = _i10.PageInfo(
+  static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i9.TermsOfUseScreen();
+      return const _i12.TermsOfUseScreen();
     },
   );
 }

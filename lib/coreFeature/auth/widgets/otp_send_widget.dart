@@ -6,12 +6,14 @@
 import 'package:core_kit/core_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygarage/config/bloc/cubit_scope_value.dart';
 import 'package:mygarage/coreFeature/auth/cubit/otp_cubit.dart';
 
 class OtpSend extends StatefulWidget {
-  const OtpSend({super.key, required this.username, required this.isSignUp});
-  final String username;
+  const OtpSend({super.key, this.username, required this.isSignUp, required this.cubit});
+  final String? username;
   final bool isSignUp;
+  final OtpCubit cubit;
 
   @override
   State<OtpSend> createState() => _OtpSendState();
@@ -23,7 +25,7 @@ class _OtpSendState extends State<OtpSend> {
   @override
   void initState() {
     controller = TextEditingController();
-    controller.text = widget.username;
+    controller.text = widget.username ?? '';
     super.initState();
   }
 
@@ -46,6 +48,7 @@ class _OtpSendState extends State<OtpSend> {
             ),
             12.height,
             CommonTextField(
+              controller: controller,
               isReadOnly: widget.isSignUp,
               hintText: 'Enter email address here...',
               validationType: ValidationType.validateEmail,
@@ -53,18 +56,23 @@ class _OtpSendState extends State<OtpSend> {
               onSaved: (value, controller) {},
             ),
             40.height,
-            CommonButton(
-              titleText: 'Send OTP',
-              isLoading: false,
-              buttonRadius: 40,
-              buttonWidth: double.infinity,
-              titleSize: 12,
-              titleWeight: FontWeight.w500,
-              onTap: () {
-                if (formKey.currentState?.validate() == true) {
-                  context.read<OtpCubit>().sendOtp(controller.text);
-                }
-              },
+            CubitScopeValue(
+              cubit: widget.cubit,
+              builder: (context, cubit, state) {
+                return CommonButton(
+                  titleText: 'Send OTP',
+                  isLoading: state.isLoading,
+                  buttonRadius: 40,
+                  buttonWidth: double.infinity,
+                  titleSize: 12,
+                  titleWeight: FontWeight.w500,
+                  onTap: () {
+                    if (formKey.currentState?.validate() == true) {
+                      context.read<OtpCubit>().sendOtp(controller.text);
+                    }
+                  },
+                );
+              }
             ),
           ],
         ),

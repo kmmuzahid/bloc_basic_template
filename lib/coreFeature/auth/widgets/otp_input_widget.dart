@@ -3,6 +3,7 @@ import 'package:core_kit/text_field/input_formatters/input_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygarage/config/bloc/cubit_scope_value.dart';
 import 'package:mygarage/config/color/app_color.dart';
 import 'package:mygarage/coreFeature/auth/cubit/otp_cubit.dart';
 import 'package:mygarage/coreFeature/auth/cubit/otp_state.dart';
@@ -13,21 +14,22 @@ class OtpInputWidget extends StatefulWidget {
     required this.onSuccess,
     required this.state,
     required this.username,
+    required this.cubit,
     super.key,
   });
-  final Function onSuccess;
+  final Function({required String token, required String email}) onSuccess;
   final OtpState state;
-  final String username;
+  final String? username;
+  final OtpCubit cubit;
   @override
   State<OtpInputWidget> createState() => _OtpVerifyWidgetState();
 }
 
 class _OtpVerifyWidgetState extends State<OtpInputWidget> {
-  late TextEditingController controller;
+  String otp = '';
   GlobalKey<FormState> formKey = GlobalKey();
   @override
-  void initState() {
-    controller = TextEditingController();
+  void initState() { 
     super.initState();
   }
 
@@ -38,18 +40,22 @@ class _OtpVerifyWidgetState extends State<OtpInputWidget> {
 
       _resendOtpTimerBuilder(widget.state).end,
       20.height,
-      CommonButton(
-        titleText: 'Verify OTP',
-        isLoading: false,
-        buttonWidth: 160,
-        buttonHeight: 40.h,
-        titleSize: 12,
-        titleWeight: FontWeight.w500,
-        onTap: () {
-          if (formKey.currentState?.validate() == true) {
-            context.read<OtpCubit>().verifyOtp(controller.text);
-            widget.onSuccess();
-          }
+      CubitScopeValue(
+        cubit: widget.cubit,
+        builder: (context, cubit, state) {
+          return CommonButton(
+            titleText: 'Verify OTP',
+            isLoading: state.isLoading,
+            buttonWidth: 160,
+            buttonHeight: 40.h,
+            titleSize: 12,
+            titleWeight: FontWeight.w500,
+            onTap: () {
+              if (formKey.currentState?.validate() == true) {
+                context.read<OtpCubit>().verifyOtp(otp, widget.onSuccess);
+              }
+            },
+          );
         },
       ),
     ],
@@ -84,8 +90,8 @@ class _OtpVerifyWidgetState extends State<OtpInputWidget> {
           TextSpan(
             text: ' Resend Code',
             recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                context.read<OtpCubit>().sendOtp(widget.username);
+              ..onTap = () { 
+                context.read<OtpCubit>().sendOtp(widget.username, isResend: true);
               },
             style: TextStyle(color: AppColor.primary, fontSize: 16, fontWeight: FontWeight.bold),
           ),
@@ -96,13 +102,14 @@ class _OtpVerifyWidgetState extends State<OtpInputWidget> {
   );
 
   Widget _otpBuilder(BuildContext context) {
-    return PinCodeTextField(
-      controller: controller,
-      autoDisposeControllers: false,
+    return PinCodeTextField(  
       cursorColor: getTheme.textSelectionTheme.cursorColor,
       textStyle: getTheme.textTheme.bodyMedium?.copyWith(fontSize: 25, color: AppColor.primary),
       appContext: context,
       autoFocus: true,
+      onChanged: (value) {
+        otp = value;
+      },
       pinTheme: PinTheme(
         shape: PinCodeFieldShape.box,
         borderRadius: BorderRadius.circular(4),
@@ -126,8 +133,7 @@ class _OtpVerifyWidgetState extends State<OtpInputWidget> {
   }
 
   @override
-  void dispose() {
-    controller.dispose();
+  void dispose() { 
     super.dispose();
   }
 }

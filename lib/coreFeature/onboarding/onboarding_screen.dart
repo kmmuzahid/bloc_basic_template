@@ -94,8 +94,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   20.height,
 
                   CommonButton(
-                    buttonWidth: double.infinity,
-                    buttonRadius: 40,
+                    buttonWidth: double.infinity, 
                     titleText: "Get Started",
                     onTap: () {
                       appRouter.replace(const SignUpRoute());

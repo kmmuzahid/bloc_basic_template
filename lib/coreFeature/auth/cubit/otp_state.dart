@@ -3,19 +3,23 @@
 class OtpState {
   const OtpState({
     this.otp = '',
-    this.count = 10,
+    this.count = 0,
     this.verificationId = '',
     this.isVerified = false,
     this.isLoading = false,
     this.username = '',
+    this.isOtpSent = false,
+    this.isResend = false,
   });
   final String otp;
   final String verificationId;
   final bool isVerified;
   final String username;
-  final maxCount = 10;
+  final int maxCount = 120; // 2 minutes
   final bool isLoading;
   final int count;
+  final bool isOtpSent;
+  final bool isResend;
 
   OtpState copyWith({
     String? otp,
@@ -24,6 +28,8 @@ class OtpState {
     String? username,
     bool? isLoading,
     int? count,
+    bool? isOtpSent,
+    bool? isResend,
   }) {
     return OtpState(
       otp: otp ?? this.otp,
@@ -32,6 +38,8 @@ class OtpState {
       username: username ?? this.username,
       isLoading: isLoading ?? this.isLoading,
       count: count ?? this.count,
+      isOtpSent: isOtpSent ?? this.isOtpSent,
+      isResend: isResend ?? this.isResend,
     );
   }
 
@@ -45,7 +53,9 @@ class OtpState {
         other.isVerified == isVerified &&
         other.username == username &&
         other.isLoading == isLoading &&
-        other.count == count;
+        other.count == count &&
+        other.isOtpSent == isOtpSent &&
+        other.isResend == isResend;
   }
 
   @override
@@ -55,6 +65,8 @@ class OtpState {
         isVerified.hashCode ^
         username.hashCode ^
         isLoading.hashCode ^
-        count.hashCode;
+        count.hashCode ^
+        isOtpSent.hashCode ^
+        isResend.hashCode;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mygarage/coreFeature/profile/screens/profile_screen.dart';
+import 'package:mygarage/coreFeature/profile/screens/personal_info_screen.dart';
 import 'package:mygarage/features/home/screens/home_screen.dart';
 
 class NavigationState {

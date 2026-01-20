@@ -18,14 +18,12 @@ class SendOtpScreen extends StatelessWidget {
   const SendOtpScreen({
     super.key,
     required this.onSuccess,
-    required this.title,
     required this.username,
-    this.isSignup = false,
+    this.showSendToField = false,
   });
-  final Function onSuccess;
-  final String title;
+  final Function({required String token, required String email}) onSuccess;
   final String username;
-  final bool isSignup;
+  final bool showSendToField;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -33,34 +31,35 @@ class SendOtpScreen extends StatelessWidget {
     body: Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: CubitScope(
-        create: () => OtpCubit(),
+        create: () {
+          final cubit = OtpCubit();
+          if (showSendToField) {
+            cubit.alreadyOtpSent(username);
+          }
+          return cubit;
+        },
         builder: (context, cubit, state) {
           return Column(
             children: [
               50.height,
-              if (!(isSignup || state.isLoading))
+              if (!showSendToField && !state.isOtpSent && !state.isResend)
                 CommonText(
                   text: 'Enter your registered email to reset your password.',
                   style: getTheme.textTheme.bodyLarge,
                   isDescription: true,
                   alignment: MainAxisAlignment.center,
                 ),
-              if (isSignup || state.isLoading) ...[
-                CommonText(
-                  text: 'Enter verification code',
-                  style: getTheme.textTheme.bodyLarge,
-                  alignment: MainAxisAlignment.center,
-                ),
+
+              if (state.isOtpSent || state.isResend) ...[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CommonText(
-                      text:
-                          'Verification code has been sent to ${username.isNotEmpty ? username : state.username}',
-                      style: getTheme.textTheme.bodyMedium,
+                      text: 'Enter verification code',
+                      style: getTheme.textTheme.bodyLarge,
                       alignment: MainAxisAlignment.center,
                     ),
-                    if (!isSignup)
+                    if (!showSendToField)
                       IconButton(
                         onPressed: () {
                           context.read<OtpCubit>().resetState();
@@ -70,11 +69,29 @@ class SendOtpScreen extends StatelessWidget {
                   ],
                 ),
               ],
+              if (state.isOtpSent)
+                CommonText(
+                  text:
+                      'Verification code has been sent to ${username.isNotEmpty ? username : state.username}',
+                  fontSize: 12,
+                  textColor: AppColor.textSecondary,
+                  isDescription: true,
+                  alignment: MainAxisAlignment.center,
+                ),
               20.height,
               AnimatedCrossFade(
-                firstChild: OtpSend(username: username, isSignUp: isSignup),
-                secondChild: OtpInputWidget(onSuccess: onSuccess, state: state, username: username),
-                crossFadeState: isSignup || state.isLoading
+                firstChild: OtpSend(
+                  username: showSendToField ? username : null,
+                  isSignUp: showSendToField,
+                  cubit: cubit,
+                ),
+                secondChild: OtpInputWidget(
+                  onSuccess: onSuccess,
+                  state: state,
+                  username: showSendToField ? username : null,
+                  cubit: cubit,
+                ),
+                crossFadeState: showSendToField || state.isOtpSent || state.isResend
                     ? CrossFadeState.showSecond
                     : CrossFadeState.showFirst,
                 duration: const Duration(milliseconds: 300), // Increase the duration

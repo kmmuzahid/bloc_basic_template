@@ -54,7 +54,9 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: TermsOfUseRoute.page),
     AutoRoute(page: SignUpRoute.page),
     AutoRoute(page: SendOtpRoute.page),
-    AutoRoute(page: NavigationRoute.page),
-   
+    AutoRoute(page: NavigationRoute.page), 
+    AutoRoute(page: ChangePasswordRoute.page),
+    AutoRoute(page: NotificationRoute.page),
+    AutoRoute(page: ResetPasswordRoute.page),
   ];
 }
