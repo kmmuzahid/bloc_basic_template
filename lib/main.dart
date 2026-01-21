@@ -5,10 +5,11 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygarage/config/bloc/app_bloc_observer.dart';
+import 'package:mygarage/config/dependency/dependency_injection.dart';
+import 'package:mygarage/my_app..dart';
 
-import 'config/bloc/app_bloc_observer.dart';
-import 'config/dependency/dependency_injection.dart';
-import 'my_app..dart';
+  
 
 void main() async {
   Bloc.observer = AppBlocObserver();
@@ -32,6 +33,6 @@ Future<void> init() async {
 }
 
 void _diInit() {
-  final DependencyInjection dI = DependencyInjection();
+  final dI = DependencyInjection();
   dI.dependencies();
 }

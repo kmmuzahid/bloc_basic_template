@@ -9,18 +9,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  core_kit:
-    path: C:\Users\KmMuzahid\Documents\others\core_kit
   # core_kit:
-  #   git:
-  #     url: https://github.com/kmmuzahid/flutter_core_kit.git
-  #     ref: 1.0.0
+  #   path: C:\Users\KmMuzahid\Documents\others\core_kit
+  core_kit:
+    git:
+      url: https://github.com/kmmuzahid/flutter_core_kit.git
+      ref: 1.0.4
 
   cupertino_icons: 
   auto_route: 
   flutter_bloc: 
   get_it: 
   flutter_secure_storage: 
+  equatable:
+
 
 dev_dependencies:
   flutter_test:
@@ -33,6 +35,8 @@ dev_dependencies:
   intl_utils:   # to generate from arb
   flutter_auto_size_text:
   change_app_package_name: 
+  pin_code_fields:
+
 
 flutter_icons:
   android: true

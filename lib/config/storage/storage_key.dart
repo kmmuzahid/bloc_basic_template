@@ -14,4 +14,8 @@ class StorageService {
 
   Future<String?> get refreshToken => Storage.instance.read('refresh_token');
   set refreshToken(String value) => Storage.instance.write('refresh_token', value);
+
+  Future<void> clearDb() async {
+    await Storage.instance.deleteAll();
+  }
 }
