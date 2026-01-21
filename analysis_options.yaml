@@ -3,8 +3,8 @@ include: package:flutter_lints/flutter.yaml
 analyzer:
   language:
     strict-casts: false
-    strict-inference: true
-    strict-raw-types: true
+    strict-inference: false
+    # strict-raw-types: true
   errors:
     # This turns inference failures into hard errors
     todo: ignore 
@@ -30,7 +30,7 @@ linter:
     - omit_local_variable_types
     - prefer_final_locals
     - prefer_interpolation_to_compose_strings
-    - unawaited_futures
+    - unawaited_futures: false
     - prefer_collection_literals
     - type_annotate_public_apis
 

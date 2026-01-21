@@ -4,9 +4,26 @@
  * @Email: km.muzahid@gmail.com
  */
 
+
+String _domain = 'http://10.10.7.102:4003';
 class ApiEndPoint {
   ApiEndPoint._();
   static final ApiEndPoint instance = ApiEndPoint._();
-  final String baseUrl = '';
-  final String refreshTokenEndpoint = '';
+  final String domain = _domain;
+  final String baseUrl = '$_domain/api/v1';
+  final String refreshTokenEndpoint = '/auth/refresh-token';
+  final String createUser = '/user/create';
+  final String verifyOtp = '/auth/verify-email';
+  final String login = '/auth/login';
+  final String resetPassword = '/auth/reset-password';
+  final String getProfile = '/user/profile';
+  final String privacyPolicy = '/setting/privacyPolicy';
+  final String termsAndConditions = '/setting/termsAndCondition';
+  final String resendOtp = '/auth/resend-otp';
+  final String changePassword = '/auth/change-password';
+
+  final String updateProfile = '/user/profile'; //patch
+  final String logout = '/auth/logout';
+
+  final String deleteAccount = '/user/delete-account';
 }

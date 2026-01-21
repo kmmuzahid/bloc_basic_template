@@ -1,13 +1,19 @@
+/*
+ * @Author: Km Muzahid
+ * @Date: 2026-01-07 15:37:37
+ * @Email: km.muzahid@gmail.com
+ */
 import 'package:core_kit/core_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mygarage/auth/cubit/auth_cubit.dart';
-import 'package:mygarage/auth/cubit/auth_state.dart';
+import 'package:mygarage/common_widgets/build_circular_icon.dart';
+import 'package:mygarage/config/api/api_end_point.dart';
 import 'package:mygarage/config/color/app_color.dart';
-
-import 'config/api/api_end_point.dart';
-import 'config/route/app_router.dart';
-import 'config/route/app_router_observer.dart';
+import 'package:mygarage/config/route/app_router.dart';
+import 'package:mygarage/config/route/app_router_observer.dart';
+import 'package:mygarage/config/storage/storage_key.dart';
+import 'package:mygarage/coreFeature/auth/cubit/auth_cubit.dart';
+import 'package:mygarage/coreFeature/auth/cubit/auth_state.dart';
 
 class CustomScrollBehavior extends MaterialScrollBehavior {
   @override
@@ -42,15 +48,39 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColor.background,
           colorScheme: ColorScheme.fromSeed(
             seedColor: AppColor.primary,
-            primary: AppColor.primary,
-            onPrimary: AppColor.onPrimary,
-            secondary: AppColor.textSecondary,
-            onSurface: AppColor.onPrimary,
-            surface: AppColor.surfaceColor,
-            outline: AppColor.outlineColor,
+            primary: AppColor.primary, // button
+            onPrimary: AppColor.onPrimary, // text on button
+            secondary: AppColor.textSecondary, // unselected radio
+            onSurface: AppColor.onPrimary, //text on card
+            surface: AppColor.surfaceColor, //card color
+            outline: AppColor.outlineColor, // border color
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.transparent,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(40),
+              borderSide: BorderSide(color: AppColor.outlineColor, width: 1.5),
+            ),
+            hintStyle: TextStyle(
+              color: AppColor.textSecondary,
+              fontStyle: FontStyle.normal,
+            ), //hint and prefix color
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(80, 50),
+              backgroundColor: AppColor.primary, //button background
+              foregroundColor: Colors.orangeAccent, //loader color
+              textStyle: const TextStyle(color: Colors.white), //title color
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(width: 1.5, color: Colors.transparent),
+                borderRadius: BorderRadius.circular(40),
+              ),
+            ),
           ),
         ),
-        themeMode: ThemeMode.light,
+        themeMode: ThemeMode.dark,
         builder: (context, child) {
           return BlocBuilder<AuthCubit, AuthState>(
             builder: (context, state) {
@@ -61,21 +91,36 @@ class MyApp extends StatelessWidget {
                 designSize: const Size(393, 690),
                 imageBaseUrl: ApiEndPoint.instance.baseUrl,
                 navigatorKey: appRouter.navigatorKey,
+                backButton: buildCircularButton(
+                  onTap: () {
+                    appRouter.pop();
+                  },
+                  child: const Icon(Icons.arrow_back_ios_new, size: 20),
+                ),
                 dioServiceConfig: DioServiceConfig(
                   baseUrl: ApiEndPoint.instance.baseUrl,
                   refreshTokenEndpoint: ApiEndPoint.instance.refreshTokenEndpoint,
-                  onLogout: () {},
+                  onLogout: () {
+                    context.read<AuthCubit>().clearTokens();
+                  },
                   enableDebugLogs: true,
                 ),
                 tokenProvider: TokenProvider(
-                  accessToken: () => state.accessToken,
-                  refreshToken: () => state.refreshToken,
-                  updateTokens: (accessToken, refreshToken) async {
-                    context.read<AuthCubit>().updateTokens(accessToken, refreshToken);
+                  accessToken: () async => (await StorageService.instance.accessToken) ?? '',
+                  refreshToken: () async {
+                    AppLogger.debug(
+                      (await StorageService.instance.refreshToken).toString(),
+                      tag: 'refreshToken',
+                    );
+                    return (await StorageService.instance.refreshToken) ?? '';
                   },
-                  clearTokens: () async {
-                    context.read<AuthCubit>().logout();
-                  },
+                  updateTokens: (data) async { 
+                    AppLogger.debug('Update Tokens', tag: 'updateTokens');
+                    await context.read<AuthCubit>().updateTokens(
+                      data['accessToken'],
+                      data['refreshToken'],
+                    );
+                  }, 
                 ),
                 child: child,
               );

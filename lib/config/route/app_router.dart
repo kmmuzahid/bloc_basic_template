@@ -5,6 +5,7 @@
  */
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:mygarage/config/route/app_router.gr.dart';
 
 final GlobalKey<NavigatorState> navigatorRouterKey = GlobalKey<NavigatorState>();
 
@@ -46,44 +47,16 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    // AutoRoute(page: SplashRoute.page, initial: true),
-    // AutoRoute(page: OnboardingRoute.page),
-    // AutoRoute(page: OtpRoute.page),
-    // AutoRoute(page: SignUpRoute.page),
-    // AutoRoute(page: SignInRoute.page),
-    // AutoRoute(page: ForgetPasswordRoute.page),
-    // AutoRoute(page: ChatRoute.page),
-    // AutoRoute(page: SettingRoute.page),
-    // AutoRoute(page: TermsConditionRoute.page),
-    // AutoRoute(page: PrivacyPolicyRoute.page),
-    // AutoRoute(page: ProfileInfoRoute.page),
-    // AutoRoute(page: ChatListRoute.page),
-    // AutoRoute(page: NotificationRoute.page),
-    // AutoRoute(page: HomeRoute.page),
-    // AutoRoute(page: ShowInfoRoute.page),
-    // AutoRoute(page: PreferenceRoute.page),
-    // AutoRoute(page: AllEventRoute.page),
-    // AutoRoute(page: EventDetailsRoute.page),
-    // AutoRoute(page: AttendieTicketAvailablityRoute.page),
-    // AutoRoute(page: TicketPurchaseRoute.page),
-    // AutoRoute(page: TicketCheckoutRoute.page),
-    // AutoRoute(page: ModifyFavoriteFanClub.page),
-    // AutoRoute(page: PerfenceSubcategoryRoute.page),
-    // AutoRoute(page: TicketSaveRoute.page),
-    // AutoRoute(page: UserTicketManageRoute.page),
-    // AutoRoute(page: OrgTicketManageRoute.page),
-    // AutoRoute(page: VenueSplashRoute.page),
-    // AutoRoute(page: VenueHomeRoute.page),
-    // AutoRoute(page: EmailPreferenceRoute.page),
-    // AutoRoute(page: ContactUsRoute.page),
-    // AutoRoute(page: ChangePasswordRoute.page),
-    // AutoRoute(page: TicketsRoute.page),
-    // AutoRoute(page: EventNotificationEnableRoute.page),
-    // AutoRoute(page: CreateEventRoute.page),
-    // AutoRoute(page: LocationRoute.page),
-    // AutoRoute(page: AllSelectedPreferenceRoute.page),
-    // AutoRoute(page: CustomMapRoute.page),
-    // AutoRoute(page: FaqRoute.page),
-    // AutoRoute(page: PaymentWebView.page),
+    AutoRoute(page: SplashRoute.page, initial: true),
+    AutoRoute(page: OnboardingRoute.page),
+    AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: PrivacyPolicyRoute.page),
+    AutoRoute(page: TermsOfUseRoute.page),
+    AutoRoute(page: SignUpRoute.page),
+    AutoRoute(page: SendOtpRoute.page),
+    AutoRoute(page: NavigationRoute.page), 
+    AutoRoute(page: ChangePasswordRoute.page),
+    AutoRoute(page: NotificationRoute.page),
+    AutoRoute(page: ResetPasswordRoute.page),
   ];
 }
