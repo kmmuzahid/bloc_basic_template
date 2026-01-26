@@ -6,7 +6,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:core_kit/core_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:mygarage/config/bloc/cubit_scope.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mygarage/config/bloc/cubit_scope_value.dart';
 import 'package:mygarage/coreFeature/notification/cubit/notification_cubit.dart';
 import 'package:mygarage/coreFeature/notification/widget/notification_item_widget.dart';
 
@@ -14,17 +15,23 @@ import 'package:mygarage/coreFeature/notification/widget/notification_item_widge
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CommonAppBar(title: 'Notification'),
-      body: CubitScope(
-        create: () => NotificationCubit()..fetch(),
+      appBar: CommonAppBar(
+        title: 'Notification',
+        onBackPress: () {
+          context.read<NotificationCubit>().getUnreadCount();
+        },
+      ),
+      body: CubitScopeValue(
+        cubit: context.read<NotificationCubit>(),
         builder: (context, cubit, state) {
           return SmartListLoader(
             itemCount: state.notifications.length,
             isLoading: state.isLoading,
-            limit: 10,
+            limit: state.notifications.length,
             onRefresh: () {
               cubit.fetch(isRefresh: true);
             },

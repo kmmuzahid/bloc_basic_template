@@ -6,8 +6,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:core_kit/core_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mygarage/common_widgets/build_circular_icon.dart';
-import 'package:mygarage/config/bloc/cubit_scope.dart';
+import 'package:mygarage/config/bloc/cubit_scope_value.dart';
 import 'package:mygarage/config/color/app_color.dart';
 import 'package:mygarage/coreFeature/navigation/cubit/navigation_cubit.dart';
 import 'package:mygarage/coreFeature/navigation/cubit/navigation_state.dart';
@@ -23,8 +24,8 @@ class NavigationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CubitScope(
-      create: () => NavigationCubit(),
+    return CubitScopeValue(
+      cubit: context.read<NavigationCubit>(),
       builder: (context, cubit, state) {
         return Scaffold(
           key: scaffoldKey,

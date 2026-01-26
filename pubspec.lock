@@ -17,14 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.7.1"
-  another_flushbar:
-    dependency: transitive
-    description:
-      name: another_flushbar
-      sha256: "2b99671c010a7d5770acf5cb24c9f508b919c3a7948b6af9646e773e7da7b757"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.12.32"
   ansicolor:
     dependency: transitive
     description:
@@ -253,8 +245,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "1.0.4"
-      resolved-ref: "82b3c4f12e98b89c219ab0f3be54c15a9c3f29e2"
+      ref: "1.0.11"
+      resolved-ref: "4bdd696263d6aaf18358d6ee28a151b34bb21943"
       url: "https://github.com/kmmuzahid/flutter_core_kit.git"
     source: git
     version: "0.0.1"

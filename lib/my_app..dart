@@ -14,7 +14,10 @@ import 'package:mygarage/config/route/app_router_observer.dart';
 import 'package:mygarage/config/storage/storage_key.dart';
 import 'package:mygarage/coreFeature/auth/cubit/auth_cubit.dart';
 import 'package:mygarage/coreFeature/auth/cubit/auth_state.dart';
+import 'package:mygarage/coreFeature/navigation/cubit/navigation_cubit.dart';
+import 'package:mygarage/coreFeature/notification/cubit/notification_cubit.dart';
 
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 class CustomScrollBehavior extends MaterialScrollBehavior {
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
@@ -37,6 +40,8 @@ class MyApp extends StatelessWidget {
         // BlocProvider(create: (_) => ThemeCubit()..update(), lazy: false),
         // BlocProvider(create: (_) => LanguageCubit()..init(), lazy: false),
         BlocProvider(create: (_) => AuthCubit()),
+        BlocProvider(create: (_) => NotificationCubit()),
+        BlocProvider(create: (_) => NavigationCubit()),
       ],
       child: MaterialApp.router(
         scrollBehavior: CustomScrollBehavior(),
@@ -48,12 +53,14 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColor.background,
           colorScheme: ColorScheme.fromSeed(
             seedColor: AppColor.primary,
-            primary: AppColor.primary, // button
+            primary: AppColor.primary, // button, Snackbar Info
             onPrimary: AppColor.onPrimary, // text on button
             secondary: AppColor.textSecondary, // unselected radio
             onSurface: AppColor.onPrimary, //text on card
-            surface: AppColor.surfaceColor, //card color
-            outline: AppColor.outlineColor, // border color
+            surface: AppColor.surfaceColor, //card color, SnackBar Background
+            outline: AppColor.outlineColor, // border color 
+            tertiary: const Color(0xFFF59E0B), // SnackBar Warning
+            error: const Color(0xFFEF4444), // SnackBar Error
           ),
           inputDecorationTheme: InputDecorationTheme(
             filled: true,
@@ -90,7 +97,7 @@ class MyApp extends StatelessWidget {
                 },
                 designSize: const Size(393, 690),
                 imageBaseUrl: ApiEndPoint.instance.baseUrl,
-                navigatorKey: appRouter.navigatorKey,
+                scaffoldMessangeKey: scaffoldMessengerKey,
                 backButton: buildCircularButton(
                   onTap: () {
                     appRouter.pop();
